@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "447176906938",
+    "project_id": "mvpproject-eb620",
+    "storage_bucket": "mvpproject-eb620.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447176906938:android:19febcc5b20a32f7454a83",
+        "android_client_info": {
+          "package_name": "com.example.mvp_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ5laMHf8cRdaFOLbSrcn__jIZ8VngkKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
