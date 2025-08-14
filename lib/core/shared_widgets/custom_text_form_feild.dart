@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../features/bottom_nav_bar/settings/dark_or_light_mode/dark_or_light_mode_cubit.dart';
+import '../../features/bottom_nav_bar/settings/dark_or_light_mode/dark_or_light_mode_state.dart';
 import '../theming/colors.dart';
 
 class CustomTextFormFeild extends StatefulWidget {
@@ -43,7 +45,7 @@ class CustomTextFormFeild extends StatefulWidget {
   final double? prefixWidth;
 
   final bool applyShadow;
-
+final Color colorText;
   final String? prefixSvgAsset;
 
   final List<TextInputFormatter>? inputFormatters;
@@ -89,7 +91,7 @@ class CustomTextFormFeild extends StatefulWidget {
     this.prefixWidth,
     this.inputFormatters,
     this.autoFocus = false,
-    this.height,
+    this.height, required this.colorText,
   });
 
   @override
@@ -110,6 +112,8 @@ class _CustomTextFormFeildState extends State<CustomTextFormFeild> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: widget.verticalMargin,
@@ -124,7 +128,7 @@ class _CustomTextFormFeildState extends State<CustomTextFormFeild> {
               child: Text(
                 widget.upperText!,
                 style: TextStyle(
-                  color: ColorsManager.black,
+                  color: widget.colorText,
                   fontSize: 14,
                   fontFamily: 'DIN',
                   fontWeight: FontWeight.w400,

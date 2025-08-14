@@ -9,6 +9,11 @@ class TextStyles {
     fontWeight: FontWeight.w700,
     color: ColorsManager.black,
   );
+  static TextStyle font30White700Weight = TextStyle(
+    fontSize: 30.sp,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+  );
   static TextStyle font15Thirdgrey300Weight = TextStyle(
     fontSize: 15.sp,
     fontWeight: FontWeight.w300,
