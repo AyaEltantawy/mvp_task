@@ -34,7 +34,8 @@ class RegisterPage extends StatelessWidget {
               final controller = BlocProvider.of<RegisterCubit>(context);
               return BlocBuilder<DarkOrLightModeCubit, DarkOrLightModeState>(
                 builder: (context, themeState) {
-                  final isDark = themeState is ThemeState ? themeState.isDarkMode : false;
+                  final isDark =
+                      themeState is ThemeState ? themeState.isDarkMode : false;
 
                   if (themeState is ThemeState) {
                     globalDark = themeState.isDarkMode;
@@ -52,7 +53,10 @@ class RegisterPage extends StatelessWidget {
                           children: [
                             Text(
                               "Create New Account",
-                              style: TextStyles.font30Black700Weight,
+                              style:
+                                  isDark
+                                      ? TextStyles.font30White700Weight
+                                      : TextStyles.font30Black700Weight,
                             ),
                             SizedBox(height: 10.h),
                             Image.asset(
@@ -66,7 +70,10 @@ class RegisterPage extends StatelessWidget {
                           children: [
                             Text(
                               "Already Have an account?",
-                              style: TextStyles.font16Black300Weight,
+                              style:
+                                  isDark
+                                      ? TextStyles.font16White700Weight
+                                      : TextStyles.font16Black300Weight,
                             ),
                             CustomTextButton(
                               text: "Login",
@@ -81,9 +88,11 @@ class RegisterPage extends StatelessWidget {
                           ],
                         ),
                         CustomTextFormFeild(
-                          colorText: isDark?Colors.white:ColorsManager.black,
+                          colorText:
+                              isDark ? Colors.white : ColorsManager.black,
                           prefixIcon: SvgPicture.asset(
-                              "assets/svgs/user_icon.svg"),
+                            "assets/svgs/user_icon.svg",
+                          ),
                           hint: "Name",
                           upperText: "Name",
                           controller: controller.nameController,
@@ -97,37 +106,49 @@ class RegisterPage extends StatelessWidget {
                         SizedBox(height: 10.h),
                         Text(
                           "Gender",
-                          style: TextStyles.font14Secondblack400Weight,
+                          style:
+                              isDark
+                                  ? TextStyles.font16White700Weight
+                                  : TextStyles.font14Secondblack400Weight,
                         ),
                         SizedBox(height: 10.h),
                         Container(
                           decoration: BoxDecoration(
-                            color: ColorsManager.grey,
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(10.sp),
                           ),
                           child: DropdownButton<String>(
-                            // validator: (value) {
-                            //   if (controller.gender.isEmpty) {
-                            //     return 'Please select a gender';
-                            //   }
-                            //   return null;
-                            // },
+                            dropdownColor: isDark ? Colors.white : Colors.white,
+                            style:
+                                isDark
+                                    ? TextStyles.font16Black300Weight
+                                    : TextStyles.font16Black300Weight,
                             value:
-                            controller.gender.isNotEmpty
-                                ? controller.gender
-                                : null,
+                                controller.gender.isNotEmpty
+                                    ? controller.gender
+                                    : null,
                             underline: SizedBox(),
                             hint: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              child: Text("gender"),
+                              child: Text(
+                                "gender",
+
+                                style: TextStyle(
+                                  color:
+                                      isDark
+                                          ? ColorsManager.black
+                                          : ColorsManager.black,
+                                ),
+                              ),
                             ),
+
                             items:
-                            _dropDownItems.map((String item) {
-                              return DropdownMenuItem(
-                                value: item,
-                                child: Text(item),
-                              );
-                            }).toList(),
+                                _dropDownItems.map((String item) {
+                                  return DropdownMenuItem(
+                                    value: item,
+                                    child: Text(item),
+                                  );
+                                }).toList(),
 
                             onChanged: (String? value) {
                               controller.gender = value ?? '';
@@ -137,7 +158,8 @@ class RegisterPage extends StatelessWidget {
                           ),
                         ),
                         CustomTextFormFeild(
-                          colorText: isDark?Colors.white:ColorsManager.black,
+                          colorText:
+                              isDark ? Colors.white : ColorsManager.black,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -158,9 +180,20 @@ class RegisterPage extends StatelessWidget {
                         ),
                         Text(
                           "Phone Number",
-                          style: TextStyles.font14blackWei400ght,
+                          style:
+                              isDark
+                                  ? TextStyles.font16White700Weight
+                                  : TextStyles.font14blackWei400ght,
                         ),
                         IntlPhoneField(
+                          dropdownTextStyle:
+                              isDark
+                                  ? TextStyles.font16Black300Weight
+                                  : TextStyles.font16Black300Weight,
+                          style:
+                              isDark
+                                  ? TextStyles.font16Black300Weight
+                                  : TextStyles.font16Black300Weight,
                           controller: controller.phoneController,
                           decoration: InputDecoration(
                             fillColor: ColorsManager.lightgrey,
@@ -210,7 +243,8 @@ class RegisterPage extends StatelessWidget {
                         ),
 
                         CustomTextFormFeild(
-                          colorText: isDark?Colors.white:ColorsManager.black,
+                          colorText:
+                              isDark ? Colors.white : ColorsManager.black,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter a password';
@@ -243,7 +277,8 @@ class RegisterPage extends StatelessWidget {
                           upperText: "Password",
                         ),
                         CustomTextFormFeild(
-                          colorText: isDark?Colors.white:ColorsManager.black,
+                          colorText:
+                              isDark ? Colors.white : ColorsManager.black,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please confirm your password';
@@ -284,7 +319,10 @@ class RegisterPage extends StatelessWidget {
                             ),
                             Text(
                               "I agree to",
-                              style: TextStyles.font14blackWei400ght,
+                              style:
+                                  isDark
+                                      ? TextStyles.font16White700Weight
+                                      : TextStyles.font14blackWei400ght,
                             ),
                             Text(
                               " Terms & Condition",
@@ -294,18 +332,18 @@ class RegisterPage extends StatelessWidget {
                         ),
                         state is LoadingRegister
                             ? const SpinKitThreeBounce(
-                          color: ColorsManager.mainblue,
-                          size: 26.0,
-                        )
+                              color: ColorsManager.mainblue,
+                              size: 26.0,
+                            )
                             : CustomButton(
-                          child: Text(
-                            "Confirm",
-                            style: TextStyles.font16White700Weight,
-                          ),
-                          onPressed: () {
-                            controller.signUp();
-                          },
-                        ),
+                              child: Text(
+                                "Confirm",
+                                style: TextStyles.font16White700Weight,
+                              ),
+                              onPressed: () {
+                                controller.signUp();
+                              },
+                            ),
                       ],
                     ),
                   );

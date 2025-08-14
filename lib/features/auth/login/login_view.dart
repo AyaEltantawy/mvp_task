@@ -28,7 +28,8 @@ class LoginPage extends StatelessWidget {
         body: SafeArea(
           child: BlocBuilder<DarkOrLightModeCubit, DarkOrLightModeState>(
             builder: (context, themeState) {
-              final isDark = themeState is ThemeState ? themeState.isDarkMode : false;
+              final isDark =
+                  themeState is ThemeState ? themeState.isDarkMode : false;
 
               if (themeState is ThemeState) {
                 globalDark = themeState.isDarkMode;
@@ -50,10 +51,13 @@ class LoginPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Login",
-                                style: globalDark
-                                    ? TextStyles.font30White700Weight
-                                    : TextStyles.font30Black700Weight,),
+                            Text(
+                              "Login",
+                              style:
+                                  isDark
+                                      ? TextStyles.font30White700Weight
+                                      : TextStyles.font30Black700Weight,
+                            ),
                             Image.asset(
                               "assets/images/success-logo-design-template-vector.jpg",
                               width: 50.w,
@@ -66,7 +70,10 @@ class LoginPage extends StatelessWidget {
                           children: [
                             Text(
                               "Don’t Have an account?",
-                              style: TextStyles.font16Black300Weight,
+                              style:
+                                  isDark
+                                      ? TextStyles.font16White700Weight
+                                      : TextStyles.font16Black300Weight,
                             ),
                             CustomTextButton(
                               text: "Create New Account",
@@ -82,7 +89,8 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         CustomTextFormFeild(
-                          colorText: isDark?Colors.white:ColorsManager.black,
+                          colorText:
+                              isDark ? Colors.white : ColorsManager.black,
                           prefixIcon: SvgPicture.asset(
                             "assets/svgs/email_icon.svg",
                           ),
@@ -103,7 +111,8 @@ class LoginPage extends StatelessWidget {
                           },
                         ),
                         CustomTextFormFeild(
-                          colorText: isDark?Colors.white:ColorsManager.black,
+                          colorText:
+                              isDark ? Colors.white : ColorsManager.black,
                           prefixIcon: SvgPicture.asset(
                             "assets/svgs/password_icon.svg",
                           ),
@@ -139,18 +148,18 @@ class LoginPage extends StatelessWidget {
                         ),
                         state is LoadingLogin
                             ? const SpinKitThreeBounce(
-                          color: ColorsManager.mainblue,
-                          size: 26.0,
-                        )
+                              color: ColorsManager.mainblue,
+                              size: 26.0,
+                            )
                             : CustomButton(
-                          onPressed: () {
-                            controller.login();
-                          },
-                          child: Text(
-                            'Login',
-                            style: TextStyles.font16White700Weight,
-                          ),
-                        ),
+                              onPressed: () {
+                                controller.login();
+                              },
+                              child: Text(
+                                'Login',
+                                style: TextStyles.font16White700Weight,
+                              ),
+                            ),
                         SizedBox(height: 20.h),
                         Row(
                           children: [
@@ -163,7 +172,8 @@ class LoginPage extends StatelessWidget {
                             // Text in the middle
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 8),
+                                horizontal: 8,
+                              ),
                               child: Text(
                                 'Or',
                                 style: TextStyles.font12Seconderyblue400Weight,
