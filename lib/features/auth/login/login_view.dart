@@ -26,6 +26,7 @@ class LoginPage extends StatelessWidget {
           child: BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
               final controller = BlocProvider.of<LoginCubit>(context);
+              //controller.fetchUserData();
               return Form(
                 key: controller.formKey,
                 child: ListView(

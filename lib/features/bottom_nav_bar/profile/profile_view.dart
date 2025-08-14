@@ -6,12 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mvp_project/features/profile/profile_cubit.dart';
-import 'package:mvp_project/features/profile/profile_state.dart';
-import '../../core/shared_widgets/custom_button.dart';
-import '../../core/shared_widgets/custom_text_form_feild.dart';
-import '../../core/theming/colors.dart';
-import '../../core/theming/styles.dart';
+import 'package:mvp_project/features/bottom_nav_bar/profile/profile_cubit.dart';
+import 'package:mvp_project/features/bottom_nav_bar/profile/profile_state.dart';
+
+import '../../../core/shared_widgets/custom_button.dart';
+import '../../../core/shared_widgets/custom_text_form_feild.dart';
+import '../../../core/theming/colors.dart';
+import '../../../core/theming/styles.dart';
+
 
 class ProfilePage extends StatelessWidget {
   List<String> _dropDownItems = ["Male", "Female"];

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../core/routing/page_router.dart';
 import '../../../core/routing/routes.dart';
+import '../../bottom_nav_bar/bottom_nav_bar/bottom_nav_bar_view.dart';
 import 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
@@ -44,14 +45,12 @@ class RegisterCubit extends Cubit<RegisterState> {
           'phone': phoneController.text.trim(),
           'password': passwordController.text.trim(),
           'bio': "",
-
-
         });
       }
 
       emit(RegisterStateInit());
 
-      MagicRouter.namedNavigation(Routes.profilePage);
+      MagicRouter.navigateTo(BottomNavBarPage());
 
       AnimatedSnackBar.material(
         'Account created!',
@@ -63,10 +62,11 @@ class RegisterCubit extends Cubit<RegisterState> {
         e.message ?? 'Registration failed',
         type: AnimatedSnackBarType.error,
       ).show(MagicRouter.currentContext);
-    } catch (e) {
+    } catch (e, stacktrace) {
+      print("Registration error: $e\n$stacktrace");
       emit(RegisterStateInit());
       AnimatedSnackBar.material(
-        'Unexpected error',
+        'Unexpected error: ${e.toString()}',
         type: AnimatedSnackBarType.error,
       ).show(MagicRouter.currentContext);
     }

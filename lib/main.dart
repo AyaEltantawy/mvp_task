@@ -1,20 +1,31 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mvp_project/features/profile/profile_view.dart';
 import 'package:mvp_project/features/splash/splash/splash_view.dart';
 
 import 'core/routing/page_router.dart';
 import 'core/routing/routes.dart';
 import 'features/auth/login/login_view.dart';
 import 'features/auth/register/register_view.dart';
+import 'features/bottom_nav_bar/profile/profile_view.dart';
+import 'features/bottom_nav_bar/users/users_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
 
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<UsersCubit>(
+          create: (_) => UsersCubit(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

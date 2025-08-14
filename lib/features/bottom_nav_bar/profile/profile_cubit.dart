@@ -7,7 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
-import '../../core/routing/page_router.dart';
+
+import '../../../core/routing/page_router.dart';
 import 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
@@ -56,7 +57,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid == null) throw Exception("No user logged in");
-      final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
       if (doc.exists) {
         final data = doc.data()!;
         namelController.text = data['name'] ?? '';
@@ -77,9 +79,12 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> editUserData() async {
     if (!formKey.currentState!.validate()) return;
     emit(ProfileLoading());
+
     try {
-      final uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid == null) throw Exception("No user logged in");
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) throw Exception("No user logged in");
+
+      final uid = user.uid;
       final updateData = {
         'name': namelController.text.trim(),
         'email': emailController.text.trim(),
@@ -87,13 +92,22 @@ class ProfileCubit extends Cubit<ProfileState> {
         'gender': gender,
         'bio': bioController.text.trim(),
       };
+
       if (profileImageBase64 != null) {
         updateData['profile_image'] = profileImageBase64!;
       }
-      await FirebaseFirestore.instance.collection('users').doc(uid).update(updateData);
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update(updateData);
+
       emit(ProfileSuccess());
-      AnimatedSnackBar.material('Changes saved', type: AnimatedSnackBarType.success)
-          .show(MagicRouter.currentContext);
+      AnimatedSnackBar.material(
+        'Changes saved',
+        type: AnimatedSnackBarType.success,
+      ).show(MagicRouter.currentContext);
+
       await fetchUserData();
       emit(ProfileStateInit());
     } catch (e) {
