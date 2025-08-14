@@ -288,6 +288,7 @@ class RegisterPage extends StatelessWidget {
                           ),
                           onPressed: () {
                             controller.signUp();
+
                           },
                         ),
                   ],

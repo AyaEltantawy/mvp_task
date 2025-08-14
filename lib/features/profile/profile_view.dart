@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mvp_project/features/profile/profile_cubit.dart';
 import 'package:mvp_project/features/profile/profile_state.dart';
-
 import '../../core/shared_widgets/custom_button.dart';
 import '../../core/shared_widgets/custom_text_form_feild.dart';
 import '../../core/theming/colors.dart';
@@ -31,54 +31,37 @@ class ProfilePage extends StatelessWidget {
               return Form(
                 key: controller.formKey,
                 child: ListView(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20.h,
-                    horizontal: 20.w,
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset("assets/images/back_arow.png"),
-                        SvgPicture.asset(
-                          "assets/svgs/logo.svg",
+                        Text("Profile", style: TextStyles.font20black700Weight),
+                        SizedBox(width: 20.h),
+                        Image.asset(
+                          "assets/images/success-logo-design-template-vector.jpg",
                           width: 50.w,
                           height: 50.w,
                         ),
                       ],
                     ),
-                    SizedBox(height: 20.h),
-                    Text("Profile", style: TextStyles.font20black700Weight),
                     SizedBox(height: 10.h),
-                    Text(
-                      "Control your profile",
-                      style: TextStyles.font15Thirdgrey300Weight,
-                    ),
+                    Text("Control your profile", style: TextStyles.font15Thirdgrey300Weight),
                     const Divider(thickness: 1, color: ColorsManager.mainblue),
                     SizedBox(height: 10.h),
                     Stack(
                       alignment: Alignment.center,
                       children: [
                         Container(
-                          width: 120.w,
-                          height: 120.w,
+                          width: 150.w,
+                          height: 150.w,
                           decoration: BoxDecoration(
+                            shape: BoxShape.circle,
                             image: DecorationImage(
-                              image:
-                                  BlocProvider.of<ProfileCubit>(
-                                            context,
-                                          ).profileImage !=
-                                          null
-                                      ? FileImage(
-                                        BlocProvider.of<ProfileCubit>(
-                                          context,
-                                        ).profileImage!,
-                                      )
-                                      : const AssetImage(
-                                            "assets/images/girl_photo_in_settings.png",
-                                          )
-                                          as ImageProvider,
                               fit: BoxFit.cover,
+                              image: controller.profileImageBase64 != null
+                                  ? MemoryImage(base64Decode(controller.profileImageBase64!))
+                                  : const AssetImage("assets/images/girl_photo_in_settings.png") as ImageProvider,
                             ),
                           ),
                         ),
@@ -86,14 +69,8 @@ class ProfilePage extends StatelessWidget {
                           bottom: 10.h,
                           right: 105.w,
                           child: GestureDetector(
-                            onTap: () {
-                              BlocProvider.of<ProfileCubit>(
-                                context,
-                              ).pickImage();
-                            },
-                            child: SvgPicture.asset(
-                              "assets/svgs/blue_camera_icon.svg",
-                            ),
+                            onTap: () => controller.pickImage(),
+                            child: SvgPicture.asset("assets/svgs/blue_camera_icon.svg"),
                           ),
                         ),
                       ],
@@ -105,31 +82,29 @@ class ProfilePage extends StatelessWidget {
                       controller: controller.namelController,
                     ),
                     CustomTextFormFeild(
+                      prefixIcon: SvgPicture.asset("assets/svgs/user_icon.svg"),
+                      hint: "bio",
+                      upperText: "Bio",
+                      controller: controller.bioController,
+                    ),
+                    CustomTextFormFeild(
                       upperText: "Email Address",
-                      prefixIcon: SvgPicture.asset(
-                        "assets/svgs/email_icon.svg",
-                      ),
+                      prefixIcon: SvgPicture.asset("assets/svgs/email_icon.svg"),
                       hint: "Email Address",
                       controller: controller.emailController,
                     ),
-                    Text(
-                      "Phone Number",
-                      style: TextStyles.font14blackWei400ght,
-                    ),
+                    Text("Phone Number", style: TextStyles.font14blackWei400ght),
                     IntlPhoneField(
+                      controller: controller.phoneController,
                       onChanged: (phone) {
                         controller.phoneCode = phone.countryCode;
-                        print("Country Code: ${phone.countryCode}");
-                        print("Phone Number: ${phone.number}");
                       },
                       decoration: InputDecoration(
                         fillColor: ColorsManager.lightgrey,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                          ),
+                          borderSide: const BorderSide(color: Colors.transparent),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -137,15 +112,11 @@ class ProfilePage extends StatelessWidget {
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                          ),
+                          borderSide: const BorderSide(color: Colors.transparent),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                          ),
+                          borderSide: const BorderSide(color: Colors.transparent),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -153,18 +124,10 @@ class ProfilePage extends StatelessWidget {
                         ),
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                          ),
+                          borderSide: const BorderSide(color: Colors.transparent),
                         ),
                       ),
                       initialCountryCode: 'EG',
-                    ),
-                    CustomTextFormFeild(
-                      upperText: "Password",
-                      prefixIcon: SvgPicture.asset("assets/svgs/Pen 2.svg"),
-                      hint: "Password",
-                      controller: controller.passwordController,
                     ),
                     SizedBox(height: 10.h),
                     Text("Gender", style: TextStyles.font14blackWei400ght),
@@ -175,32 +138,21 @@ class ProfilePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.sp),
                       ),
                       child: DropdownButton<String>(
-                        // validator: (value) {
-                        //   if (controller.gender.isEmpty) {
-                        //     return 'Please select a gender';
-                        //   }
-                        //   return null;
-                        // },
-                        value:
-                            controller.gender.isNotEmpty
-                                ? controller.gender
-                                : null,
+                        value: controller.gender.isNotEmpty ? controller.gender : null,
                         underline: SizedBox(),
                         hint: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Text("gender"),
                         ),
-                        items:
-                            _dropDownItems.map((String item) {
-                              return DropdownMenuItem(
-                                value: item,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10.w),
-                                  child: Text(item),
-                                ),
-                              );
-                            }).toList(),
-
+                        items: _dropDownItems.map((String item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10.w),
+                              child: Text(item),
+                            ),
+                          );
+                        }).toList(),
                         onChanged: (String? value) {
                           controller.gender = value ?? '';
                           _selectedItem = value;
@@ -209,65 +161,43 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    Text(
-                      "Link Personal account",
-                      style: TextStyles.font14Secondblack400Weight,
-                    ),
+                    Text("Link Personal account", style: TextStyles.font14Secondblack400Weight),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20.h),
                       child: Row(
                         children: [
-                          SvgPicture.asset(
-                            "assets/svgs/google_icon_without_container.svg",
-                          ),
+                          SvgPicture.asset("assets/svgs/google_icon_without_container.svg"),
                           Padding(
                             padding: EdgeInsets.only(left: 10.w, right: 20.w),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text("Google", style: TextStyles.font20black700Weight),
                                 Text(
-                                  "Google",
-                                  style: TextStyles.font20black700Weight,
-                                ),
-                                Text(
-                                  controller.isConnected == true
-                                      ? "Connected"
-                                      : "DisConnected",
-                                  style:
-                                      controller.isConnected == true
-                                          ? TextStyles.font11Green400Weight
-                                          : TextStyles.font11Red400Weight,
+                                  controller.isConnected ? "Connected" : "DisConnected",
+                                  style: controller.isConnected
+                                      ? TextStyles.font11Green400Weight
+                                      : TextStyles.font11Red400Weight,
                                 ),
                               ],
                             ),
                           ),
                           Expanded(
-                            child: Text(
-                              controller.emailController.text,
-                              style: TextStyles.font13Icongrey400Weight,
-                            ),
+                            child: Text(controller.emailController.text, style: TextStyles.font13Icongrey400Weight),
                           ),
-
-                          // SizedBox(
-                          //   width: 50.w,
-                          // ),
                           CupertinoSwitch(
                             value: controller.isConnected,
-                            onChanged: (bool value) {
-                              return controller.switchConnected();
-                            },
+                            onChanged: (bool value) => controller.switchConnected(),
                           ),
                         ],
                       ),
                     ),
-
                     SizedBox(height: 10.h),
-                    CustomButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Save Changes",
-                        style: TextStyles.font16White700Weight,
-                      ),
+                    state is ProfileLoading
+                        ? const SpinKitThreeBounce(color: ColorsManager.mainblue, size: 26.0)
+                        : CustomButton(
+                      onPressed: () => controller.editUserData(),
+                      child: Text("Save Changes", style: TextStyles.font16White700Weight),
                     ),
                   ],
                 ),
