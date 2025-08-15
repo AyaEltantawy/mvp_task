@@ -36,21 +36,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(SwitchConnected());
   }
 
-  // Future<void> pickImage() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //
-  //   if (pickedFile != null) {
-  //     final bytes = await pickedFile.readAsBytes();
-  //     img.Image? image = img.decodeImage(bytes);
-  //     if (image != null) {
-  //       image = img.bakeOrientation(image);
-  //       final fixedBytes = img.encodeJpg(image);
-  //       profileImageBase64 = base64Encode(fixedBytes);
-  //       emit(ProfileImagePicked());
-  //     }
-  //   }
-  // }
+
   Future<void> pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
