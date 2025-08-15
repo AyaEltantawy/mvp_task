@@ -9,7 +9,7 @@ class AppSettingsListTile extends StatelessWidget {
     required this.style,
 
     this.onTap,
-    required this.widget,
+    required this.widget, this.onTapIcon,
   });
 
   final String label;
@@ -17,6 +17,7 @@ class AppSettingsListTile extends StatelessWidget {
   final Widget widget;
 
   final void Function()? onTap;
+  final void Function()? onTapIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class AppSettingsListTile extends StatelessWidget {
                   Text(label, style: style),
                   const Spacer(),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: onTapIcon,
                     icon: Icon(
                       Icons.arrow_forward_ios_outlined,
                       color: Colors.white,

@@ -22,19 +22,27 @@ class SettingsPage extends StatelessWidget {
       create: (BuildContext context) => SettingsCubit(),
       child: BlocBuilder<DarkOrLightModeCubit, DarkOrLightModeState>(
         builder: (context, themeState) {
-          final isDark = themeState is ThemeState ? themeState.isDarkMode : false;
-          return Scaffold(backgroundColor: isDark
-              ? ColorsManager.darkBackground
-              : ColorsManager.background,
+          final isDark =
+              themeState is ThemeState ? themeState.isDarkMode : false;
+          return Scaffold(
+            backgroundColor:
+                isDark
+                    ? ColorsManager.darkBackground
+                    : ColorsManager.background,
             body: SafeArea(
-
               child: ListView(
                 padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Settings", style:isDark?  TextStyles.font16White700Weight: TextStyles.font20black700Weight),
+                      Text(
+                        "Settings",
+                        style:
+                            isDark
+                                ? TextStyles.font16White700Weight
+                                : TextStyles.font20black700Weight,
+                      ),
                       SizedBox(width: 20.h),
                       Image.asset(
                         "assets/images/success-logo-design-template-vector.jpg",
@@ -53,25 +61,42 @@ class SettingsPage extends StatelessWidget {
                       );
                     },
                     child: AppSettingsListTile(
+                      onTapIcon: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
+                      },
                       style: TextStyles.font16White700Weight,
 
-                      widget: Icon(Icons.person, color: Colors.white,),
+                      widget: Icon(Icons.person, color: Colors.white),
                       label: 'Profile',
                     ),
                   ),
-                  SizedBox(height: 20.h,),
+                  SizedBox(height: 20.h),
                   InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>
-                            DarkAndLightModePage()),
+                        MaterialPageRoute(
+                          builder: (context) => DarkAndLightModePage(),
+                        ),
                       );
                     },
                     child: AppSettingsListTile(
+                      onTapIcon: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DarkAndLightModePage(),
+                          ),
+                        );
+                      },
                       style: TextStyles.font16White700Weight,
 
-                      widget: Icon(Icons.dark_mode, color: Colors.white,),
+                      widget: Icon(Icons.dark_mode, color: Colors.white),
                       label: 'DarkMode',
                     ),
                   ),
